@@ -1,0 +1,85 @@
+{% extends "sidebar_layout.html" %}
+
+{% block title %}
+    Main
+{% endblock %}
+
+{% block script %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        render_time();
+        
+    });
+
+    function render_time() {
+        var d = new Date();
+        var date_string = d.getFullYear() + "/" + d.getMonth() + "/" + d.getDate();
+        var time_string = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+        document.getElementById('currentTime').innerHTML = date_string;
+        document.getElementById('currentDate').innerHTML = time_string;
+        call_for_refresh();
+    };
+
+    function call_for_refresh() {
+        var refresh = 1000;
+        setTimeout('render_time()', refresh);
+    };
+
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div class="x85vh d-flex flex-column align-items-center">
+    <div class="clock_block">
+        <div style="width: 5%;"></div>
+        <h1 class="white current_time pe-5" id="currentTime" style="width: 45%;"></h1>
+        <h1 class="orange current_time" id="currentDate" style="width: 45%;"></h1>
+        <div style="width: 5%;"></div>
+    </div>
+
+    <div class="lifebar">
+
+        <div class="year_annotation center white" style="left: -50px;">{{ birthday.year }}</div>
+
+        <div class="lived_bar center" style="width: {{ age }}%;">
+            {{ age }}<span style="font-size: 2rem;">(yrs)</span>
+            <div class="current_year_annotation center white">{{ current_year }}</div>
+            <div class="bar_text">Years passed</div>
+        </div>
+
+        <div class="remain_bar center" style="width: {{ remain_year }}%;">
+            {{ remain_year }}<span style="font-size: 2rem;">(yrs)</span>
+            <div class="year_annotation center white">{{ avg_death_year }}</div>
+            <div class="bar_text">Average remaining</div>
+        </div>
+
+        <div class="extra_bar center">
+            20<span style="font-size: 2rem;">(yrs)</span>
+            <div class="bar_text">Healthy ones</div>
+        </div>
+
+        <div class="year_annotation center white">{{ hundred_year }}</div>
+
+    </div>  
+    <div class="marked_scale_grid">
+        <div class="marked_scale_item">
+            <div class="marked_scale_0">:<br>0</div>
+            <div class="marked_scale">:<br>10</div>
+        </div>
+        <div class="marked_scale_item"><div class="marked_scale">:<br>20</div></div>
+        <div class="marked_scale_item"><div class="marked_scale">:<br>30</div></div>
+        <div class="marked_scale_item"><div class="marked_scale">:<br>40</div></div>
+        <div class="marked_scale_item"><div class="marked_scale">:<br>50</div></div>
+        <div class="marked_scale_item"><div class="marked_scale">:<br>60</div></div>
+        <div class="marked_scale_item"><div class="marked_scale">:<br>70</div></div>
+        <div class="marked_scale_item"><div class="marked_scale">:<br>80</div></div>
+        <div class="marked_scale_item"><div class="marked_scale">:<br>90</div></div>
+        <div class="marked_scale_item">
+            <div class="marked_scale">:<br>100</div>
+            <div class="marked_scale_end">( years old )</div>
+        </div>
+    </div> 
+</div>
+{% endblock %}

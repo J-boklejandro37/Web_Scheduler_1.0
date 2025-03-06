@@ -1,0 +1,77 @@
+{% extends "entrance_layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+
+{% block script %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+           //remember username
+           document.getElementById("username").value = "{{username}}";
+
+           //control checkbox
+           document.querySelector(".btn-link").addEventListener("click", function() {
+               document.getElementById("checkbox1").removeAttribute("disabled");
+           });
+
+           //redframe warning
+           document.getElementById('{{ redframe }}').style.border = "0.15rem solid #f00";
+    });
+</script>
+{% endblock %}
+
+
+
+{% block content %}
+
+{% if not request.session.user_id %}
+<div class="x85vh center">
+    <div class="transparent-white p-4">          
+        <form action="." method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="username" style="font-size: 1.2rem; font-weight: 600;">Username</label>
+                <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="username" name="username" placeholder="Username" type="text">
+            </div>
+            <div class="mb-3">
+                <label for="password" style="font-size: 1.2rem; font-weight: 600;">Password</label>
+                <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password">
+            </div>
+            <div class="mb-3">
+                <label for="confirmation" style="font-size: 1.2rem; font-weight: 600;">Confirm password</label>
+                <input class="form-control mx-auto w-auto" id="confirmation" name="confirmation" placeholder="Confirm your passsword" type="password">
+            </div>
+            <div class="mb-3">
+                <label for="birthday" style="font-size: 1.2rem; font-weight: 600;">Date of Birth</label>
+                <input class="form-control mx-auto w-auto" type="date" id="birthday" name="birthday">
+            </div>
+            
+
+
+            <div class="form-check" id="register-check">
+                <input type="checkbox" id="checkbox1" name="checkbox1" disabled>
+                <label for="register-check">I have read the <a class="btn btn-link brown" data-bs-toggle="collapse" href="#tandc" role="button" aria-expanded="false" aria-controls="tandc">terms & conditions</a></label>
+            </div>
+            <div class="collapse" id="tandc">
+                <small class="card card-body mb-3">This project has no copyright.</small>
+            </div>
+            {% if hint %}
+                <p style="color: #ff0; font-size: 0.8rem;">{{ hint }}</p>
+            {% endif %}
+            <button class="btn btn-dark" type="submit">Register</button>
+        </form>
+    </div>
+</div>  
+{% else %}
+<div class="x85vh center">
+    <div class="textbox1 p-4 pt-5">
+        <h3>Cannot register while being logged in. Would you like to <a href="/logout/">logout</a>?</h3>
+    </div>
+</div>
+
+{% endif %}
+
+{% endblock %}

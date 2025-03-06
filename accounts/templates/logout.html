@@ -1,0 +1,26 @@
+{% extends "entrance_layout.html" %}
+
+{% block title %}
+    Logout
+{% endblock %}
+
+{% block content %}
+
+{% if request.session.user_id %}
+<div class="x85vh center">
+    <div class="p-4 pt-5">
+        <h3 class="p-3 white">Are you sure you want to logout?</h3>
+        <a href="/accounts/entrance" class="btn btn-entrance mx-3"  role="button">Yes</a>
+        <a href="/" class="btn btn-entrance mx-3"  role="button">No</a>
+    </div>
+</div>
+{% else %}
+<div class="x85vh center">
+    <div class="textbox1 p-4 pt-5">
+        <h3>You're logged out. <a href="/accounts/entrance/">Entrance</a> here.</h3>
+    </div>
+</div>
+
+{% endif %}
+
+{% endblock %}

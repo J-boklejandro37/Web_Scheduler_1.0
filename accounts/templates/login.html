@@ -1,0 +1,39 @@
+{% extends "entrance_layout.html" %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block content %}
+
+{% if not request.session.user_id %}
+<div class="x85vh center">
+    <div class="transparent-white p-4 pt-5">
+        <form action="." method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="username" name="username" placeholder="Username" type="text">
+            </div>
+            <div class="mb-3">
+                <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password">
+            </div>
+            <div>
+                <button class="btn btn-dark" type="submit">Log In</button>
+            </div>
+            {% if hint %}
+                <p style="color: #ff0; font-size: 0.8rem;" class="mt-2">{{ hint }}</p>
+            {% endif %}
+            <p class="mt-3 mb-0">Don't have an account? <a href="/accounts/register/">Create an account.</a></p>
+        </form>
+    </div>
+</div>
+{% else %}
+<div class="x85vh center">
+    <div class="textbox1 p-4 pt-5">
+        <h3>You're already logged in. Would you like to <a href="/accounts/logout/">Logout</a>?</h3>
+    </div>
+</div>
+
+{% endif %}
+
+{% endblock %}

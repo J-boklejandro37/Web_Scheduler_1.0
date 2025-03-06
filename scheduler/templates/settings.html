@@ -1,0 +1,86 @@
+{% extends "sidebar_layout.html" %}
+
+{% block title %}
+    Settings
+{% endblock %}
+
+{% block content %}
+
+
+<div class="x85vh d-flex flex-column align-items-center">
+    <h1 class="white mb-5">Settings</h1>
+    <div class="setting-grid">
+        <div class="setting-item">
+            <div class="setting-item-left">Change Birthday</div>
+            <div style="grid-column-start: 2; grid-column-end: 5;">
+                <form method="post" id="change_birthday_form" style="height: 100%; display: grid; grid-template-columns: repeat(3, 1fr);">
+                    {% csrf_token %}
+                    <div class="d-flex flex-column justify-content-evenly align-iitems-center px-5 py-3" style="grid-column-start: 1; grid-column-end: 3;">
+                        <label for="date" style="text-align: left;">Choose a Date</label>
+                        <input type="date" name="date">
+                        <label for="password" style="text-align: left;">Enter password</label>
+                        <input type="password" name="password">
+                        <div id="change_birthday_response" class="yellow"></div>
+                    </div>                                        
+                    <div class="center" style="grid-column-start: 3; grid-column-end: 4;">
+                        <button type="submit" id="change_birthday_btn" class="btn btn-dark">Save</button>
+                    </div>
+                </form>
+            </div>            
+        </div>
+
+
+        <div class="setting-item">
+            <div class="setting-item-left">Arrange Daily Tasks</div>
+            <div class="py-4 px-5" id="settingCheckboxList" style="grid-column-start: 2; grid-column-end: 4;">
+                {% for item in daily_checkbox %}
+                <div class="setting-card" id="settingCheckbox" data-id="{{ item.id }}">
+                    <div class="setting-card-body">{{ item.task }}</div>
+                    <button type="button" class="btn-close" data-id="{{ item.id }}"></button>
+                </div>
+                {% endfor %}
+                <div id="arrange_daily_response"></div>
+            </div>            
+            <div class="setting-item-right">
+                <form id="add_task_form">
+                    {% csrf_token %}
+                    <label for="task" class="mb-3">Add Task</label>
+                    <input type="text" name="task" style="width: 100%;">
+                    <button type="submit" class="btn btn-dark mt-3" id="add_task">Add</button>
+                </form>
+            </div>
+        </div>
+        
+
+        <div class="setting-item">
+            <div class="setting-item-left">Add to Calender</div>
+            <div style="grid-column-start: 2; grid-column-end: 5;">
+                <form method="post" id="add_calendar_form" style="height: 100%; display: grid; grid-template-columns: repeat(3, 1fr);">
+                    {% csrf_token %}
+                    <div class="d-flex flex-column justify-content-evenly align-iitems-center px-5 py-3" style="grid-column-start: 1; grid-column-end: 3;">
+                        <label for="task_date" style="text-align: left;">Choose a Date</label>
+                        <input type="date" name="task_date">
+                        <label for="task_title" style="text-align: left;">Task Title</label>
+                        <input type="text" name="task_title">
+                        <label for="task_time" style="text-align: left;">Time</label>
+                        <select name="task_time">
+                            <option value="Morning">Morning</option>
+                            <option value="Afternoon">Afternoon</option>
+                            <option value="Evening">Evening</option>
+                        </select>
+                        <div id="add_calendar_response" class="yellow"></div>
+                    </div>                                        
+                    <div class="center flex-column p-3" style="grid-column-start: 3; grid-column-end: 4;">
+                        <label for="task_content" class="mb-2" style="text-align: left;">Task Content</label>
+                        <textarea rows="3" cols="12" name="task_content" placeholder=""></textarea>
+                        <button type="submit" id="add_calendar_btn" class="btn btn-dark mt-2">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+
+{% endblock %}

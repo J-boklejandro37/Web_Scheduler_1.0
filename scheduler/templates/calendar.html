@@ -1,0 +1,63 @@
+{% extends "sidebar_layout.html" %}
+
+{% block title %}
+    Calendar
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="x85vh d-flex flex-column align-items-center">
+
+    <div class="dialog" id="dialog">
+        <div class="d-flex justify-content-end"> 
+            <button type="button" class="btn-close"></button>
+        </div>
+        <h3 class="date-title" id="date_title"></h3>
+        <div class="d-flex flex-column justify-content-between p-4" style="height: 90%;">
+            <h1 class="daily-title">Morning</h1>
+            <div class="detail-item" id="morning_task"></div>
+            <h1 class="daily-title">Afternoon</h1>
+            <div class="detail-item" id="afternoon_task"></div>
+            <h1 class="daily-title">Evening</h1>
+            <div class="detail-item" id="evening_task"></div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end month_input">
+        <form action="." method="POST">
+            {% csrf_token %}
+            <input type="month" id="set_month" name="set_month" value="{{ month_value }}" required>
+            <button type="submit" class="btn btn-dark ms-3" >Go</button>
+        </form>
+    </div>
+
+    <div class="grid-weekday mt-5">
+        <div class="weekday-item">Sun</div>
+        <div class="weekday-item">Mon</div>
+        <div class="weekday-item">Tue</div>
+        <div class="weekday-item">Wed</div>
+        <div class="weekday-item">Thu</div>
+        <div class="weekday-item">Fri</div>
+        <div class="weekday-item">Sat</div>
+    </div>
+
+    <div class="grid-calendar">
+        {% for i in start_offset %}
+            <div class="offset-item"></div>
+        {% endfor %}
+        {% for day in calendar_list %}
+            <div class="calendar-item" id="calender_item" data-id="{{ month_value }}-{{ day.day }}" type="button">
+                <div>{{ day.day }}</div>
+                <div class="calendar-item-detail" style="{% if day.morning %} background-color: pink; {% endif %}"></div>
+                <div class="calendar-item-detail" style="{% if day.afternoon %} background-color: pink; {% endif %}"></div>
+                <div class="calendar-item-detail" style="{% if day.evening %} background-color: pink; {% endif %}"></div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}

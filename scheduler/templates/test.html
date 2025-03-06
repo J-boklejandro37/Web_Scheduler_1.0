@@ -1,0 +1,20 @@
+{% extends "sidebar_layout.html" %}
+
+{% block title %}
+    Test
+{% endblock %}
+
+{% block content %}
+<div class="x85vh center">
+    <div class="transparent-white p-4 white">
+        <h3>This is the test url for printing out things in terminal.</h3>
+        <form action="." method="POST">
+            {% csrf_token %}
+            <div>
+                <button class="btn btn-dark" type="submit">Print</button>
+            </div>
+        </form>
+    </div>
+    
+</div>
+{% endblock %}

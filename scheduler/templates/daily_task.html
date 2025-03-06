@@ -1,0 +1,65 @@
+{% extends "sidebar_layout.html" %}
+
+{% block title %}
+    Daily
+{% endblock %}
+
+{% block script %}
+{% endblock %}
+
+{% block content %}
+<form action="." style="display: None;">
+    {% csrf_token %}
+    <input type="text">
+</form>
+
+
+<div class="x85vh center">
+    <div class="daily-grid">
+        <div class="left-top-item center">
+            <div class="date-caption">{{ year }}.{{ month }}.{{ day }}</div>
+        </div>
+
+
+        <div class="left-bottom-item p-4">
+            <div class="checkbox-caption">Daily Tasks</div>
+            <div class="checkbox-content" id="checkboxList">
+             {% for item in daily_checkbox %}
+             <div class="card mb-3 {% if item.checked %} checked {% endif %}" type="button" id="dailyCheckbox" data-id="{{ item.id }}">
+                <div class="card-body">{{ item.task }}</div>
+             </div>
+             {% endfor %}
+            </div>
+            <button id="reset" class="btn btn-dark">Reset</button>
+        </div>
+
+
+        <div class="right-item d-flex flex-column justify-content-between p-4">
+            <h1 class="daily-title">#Morning <span style="font-size: 1.5rem;">(06:00-12:00)</span></h1>
+            <div class="daily-item">
+                {% if morning_task %}
+                    <h3>{{ morning_task.task_title }}</h3>
+                    <p>{{ morning_task.task_content }}</p>
+                {% endif %}
+            </div>
+            <h1 class="daily-title">#Afternoon <span style="font-size: 1.5rem;">(12:00-18:00)</span></h1>
+            <div class="daily-item">
+                {% if afternoon_task %}
+                    <h3>{{ afternoon_task.task_title }}</h3>
+                    <p>{{ afternoon_task.task_content }}</p>
+                {% endif %}
+            </div>
+            <h1 class="daily-title">#Evening <span style="font-size: 1.5rem;">(18:00-24:00)</span></h1>
+            <div class="daily-item">
+                {% if evening_task %}
+                    <h3>{{ evening_task.task_title }}</h3>
+                    <p>{{ evening_task.task_content }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+
+{% endblock %}
