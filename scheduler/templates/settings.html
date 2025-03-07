@@ -13,7 +13,7 @@
         <div class="setting-item">
             <div class="setting-item-left">Change Birthday</div>
             <div style="grid-column-start: 2; grid-column-end: 5;">
-                <form method="post" id="change_birthday_form" style="height: 100%; display: grid; grid-template-columns: repeat(3, 1fr);">
+                <form method="post" id="change_birthday_form" style="height: 100%; display: grid; grid-template-columns: repeat(3, 1fr);" action="/scheduler/settings/change_birthday/">
                     {% csrf_token %}
                     <div class="d-flex flex-column justify-content-evenly align-iitems-center px-5 py-3" style="grid-column-start: 1; grid-column-end: 3;">
                         <label for="date" style="text-align: left;">Choose a Date</label>

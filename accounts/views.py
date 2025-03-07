@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-from accounts.models import Userbase
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.hashers import make_password, check_password
 from Web_Scheduler.custom import login_required_custom
+from .models import Userbase
 
 # Clear session, enter the entrance view
 def entrance_view(request):

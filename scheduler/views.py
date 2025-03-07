@@ -1,13 +1,14 @@
 from django.http import HttpResponse, JsonResponse
 from django.template.loader import render_to_string
 from django.forms.models import model_to_dict
-from accounts.models import Userbase, Tasks, DailyCheckbox
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
 import datetime
 import calendar
 from Web_Scheduler.custom import login_required_custom
+from accounts.models import Userbase
+from .models import Tasks, DailyCheckbox
 
 def test_view(request):
     print(request.session["user_id"])
@@ -123,15 +124,15 @@ def calendar_view(request):
         day_dict = {}
         day_dict["day"] = day
         try:
-            day_dict["morning"] = Tasks.objects.filter(date=str(year)+str(month)+str(day).zfill(2), task_time="m")[0]
+            day_dict["morning"] = Tasks.objects.filter(date=datetime.date(year, month, day), task_time="m").first()
         except:
             day_dict["morning"] = None
         try:
-            day_dict["afternoon"] = Tasks.objects.filter(date=str(year)+str(month)+str(day).zfill(2), task_time="a")[0]
+            day_dict["afternoon"] = Tasks.objects.filter(date=datetime.date(year, month, day), task_time="a").first()
         except:
             day_dict["afternoon"] = None
         try:
-            day_dict["evening"] = Tasks.objects.filter(date=str(year)+str(month)+str(day).zfill(2), task_time="e")[0]
+            day_dict["evening"] = Tasks.objects.filter(date=datetime.date(year, month, day), task_time="e").first()
         except:
             day_dict["evening"] = None
         calendar_list.append(day_dict)
@@ -152,6 +153,7 @@ def open_dialog(request):
     afternoon_task = None
     evening_task = None
     if obj_list:
+        print("here")
         for task in obj_list:
             match task.task_time:
                 case "m":
@@ -204,7 +206,6 @@ def add_task(request):
     
     task = request.POST.get("task")
     obj = DailyCheckbox.objects.create(user_id=request.session["user_id"], task=task)
-    print(obj.task)
     context = {
         "task": model_to_dict(obj),
     }

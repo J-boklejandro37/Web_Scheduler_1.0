@@ -20,14 +20,16 @@ from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     # Redirect from root to /scheduler/home
-    path('', RedirectView.as_view(url='scheduler/home/', permanent=True)),
+    path('', RedirectView.as_view(url='/scheduler/home/', permanent=True)),
 
     # Include accounts/
     path('accounts/', include('accounts.urls'), name='accounts_url'),
 
     # Include scheduler/
     path('scheduler/', include('scheduler.urls'), name='scheduler_url')
+    
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

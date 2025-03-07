@@ -7,10 +7,10 @@ urlpatterns = [
     path('home/', views.home_view),
     path('credits/', views.credits_view),
     path('daily/', views.daily_view),
-    path('<str:id>/checked/', views.checked, name='checked_url'),
-    path('daily_reset/', views.daily_reset),
+    path('daily/<str:id>/checked/', views.checked, name='checked_url'),
+    path('daily/daily_reset/', views.daily_reset),
 
-    path('calender/', views.calendar_view),
+    path('calendar/', views.calendar_view),
     path('calendar/open_dialog/', views.open_dialog),
 
     path('settings/', views.settings_view),

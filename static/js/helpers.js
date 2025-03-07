@@ -2,15 +2,34 @@ $(document).ready(function() {
 
     var csrfToken = $('input[name=csrfmiddlewaretoken]').val();
 
+    /*
+    [ IMPORTANT ]
+     There're two ways of changing a webpage.
+     1. "href" in the tag: Redirect to another url, will reload the page
+     2. "event" happening: Redirect to another url, won't reload the page, only change partial content
+     Both pass the parameter in the url if there's a need.
+
+    [ jQuery Selector ]
+     1. $('#id_value'): Get element by id
+     2. $('.class_name'): Get element by class
+     3. $(element): Get the element, typically $(this), can also use $('div'), it will get the first <div></div>
+     4. $(element).attr('attr_name'): Get attribute value by attribute name, ex: class, id, data-id
+     5. $(element).data('name'): Get attribute value whose name is with "data-" prefix
+
+    [ AJAX URL rule ]
+     1. url: '/scheduler/daily/daily_reset/' -> use root
+     2. url: 'daily_reset/' -> relative to current url, result's the same
+    */
 
     // daily checkbox toggle
+    // Only trigger when clicking inside the <div class="class"></div>, within <div id="checkboxList"></div> area
     $('#checkboxList').on('click', '.card', function() {
-        var dataId = $(this).data('id');
+        var dataId = $(this).data('id'); // Get data-id value of this element
         var context = {
-            url: '/' + dataId + '/checked/',
+            // dataId is passed in as parameter to def check(request, id=None) in views.py
+            url: dataId + '/checked/',
             data: {
                 csrfmiddlewaretoken: csrfToken,
-                id: dataId,
             },
             type: 'post',
             success: function() {
@@ -22,10 +41,23 @@ $(document).ready(function() {
         $.ajax(context);
     });
 
+    /*
+    [IMPORTANT]: If there's no need to change the database, use without AJAX
+
+    $('#checkboxList').on('click', '.card', function() {
+        var dataId = $(this).data('id');
+        var item = $('#dailyCheckbox[data-id="' + dataId + '"]');
+        item.toggleClass('checked');
+    });
+    */
 
     $('#reset').click(function() {
         var context = {
-            url: '/daily_reset/',
+            url: 'daily_reset/',
+            data: {
+                csrfmiddlewaretoken: csrfToken,
+            },
+            type: 'post',
             success: function(response) {
                 var list = response.checkbox_list;
                 for (item in list) {
@@ -38,13 +70,12 @@ $(document).ready(function() {
     });
 
 
-
     // change birthday
     $('#change_birthday_btn').click(function(event) {
         event.preventDefault();
         var form_data = $('#change_birthday_form').serialize();
         var context = {
-            url: '/settings/change_birthday/',
+            url: 'change_birthday/',
             data: form_data,
             type: 'post',
             success: function(response) {
@@ -56,25 +87,26 @@ $(document).ready(function() {
     });
 
 
-
     // daily checkbox management
     // add task
-    $('#add_task').click(function(event) {
-        event.preventDefault();
-        var form_data = $('#add_task_form').serialize();
+    $('#add_task_form').submit(function(event) {
+        event.preventDefault(); // Stop the default form submission
+        
+        var form_data = $(this).serialize();
         var context = {
-            url: '/settings/add_task/',
+            url: 'add_task/',
             data: form_data,
             type: 'post',
             success: function(response) {
-                var task = response["task"]; 
+                var task = response["task"];
                 $('#settingCheckboxList').append('<div class="setting-card" id="settingCheckbox" data-id="' + task.id +'"><div class="setting-card-body">' + task.task +'</div><button type="button" class="btn-close" data-id="' + task.id +'"></button></div>');      
             }
-        }
-
+        };
+    
         $.ajax(context);
-
-        $('#add_task_form')[0].reset();
+        this.reset(); // Clear the form
+        
+        return false; // Extra insurance against form submission
     });
 
     // delete task
@@ -83,7 +115,7 @@ $(document).ready(function() {
         var dataId = $(this).data('id');
         console.log(dataId);
         var context = {
-            url: '/settings/delete_task/'+ dataId + '/',
+            url: 'delete_task/'+ dataId + '/',
             data: {
                 csrfmiddlewaretoken: csrfToken,
                 id: dataId,
@@ -96,7 +128,6 @@ $(document).ready(function() {
 
         $.ajax(context);
     });
-    
 
 
     // calendar items management
@@ -104,7 +135,7 @@ $(document).ready(function() {
         event.preventDefault();
         var form_data = $('#add_calendar_form').serialize();
         var context = {
-            url: '/settings/add_calendar/',
+            url: 'add_calendar/',
             data: form_data,
             type: 'post',
             success: function(response) {
@@ -122,7 +153,7 @@ $(document).ready(function() {
     $('.calendar-item').click(function() {
         var dataId = $(this).data('id');
         var context = {
-            url: '/calendar/open_dialog/',
+            url: 'open_dialog/',
             data: {
                 csrfmiddlewaretoken: csrfToken,
                 date: dataId,
